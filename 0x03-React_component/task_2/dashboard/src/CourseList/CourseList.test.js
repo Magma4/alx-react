@@ -20,7 +20,7 @@ describe("CourseList component tests", () => {
     const wrapper = shallow(<CourseList listCourses={listCourses} />);
 
     expect(wrapper.find("thead").children()).toHaveLength(2);
-    wrapper.find("theasd").forEach((node) => {
+    wrapper.find("thead").forEach((node) => {
       expect(node.equals(<CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />));
     });
 

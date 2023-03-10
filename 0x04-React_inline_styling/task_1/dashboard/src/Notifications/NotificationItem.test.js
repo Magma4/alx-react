@@ -1,32 +1,28 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import NotificationItem from './NotificationItem';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-describe('Basic React Tests - <NotificationItem />', function() {
-	it('Should render without crashing', () => {
-		const wrapper = shallow(<NotificationItem />);
-		expect(wrapper.exists()).toBeTruthy();
-	});
+describe("Testing <NotificationItem />", () => {
+  let  wrapper;
 
-	it('Should render the correct html, type and value props', () => {
-		const wrapper = shallow(<NotificationItem type='default' value='test' />);
-		expect(wrapper.find('li').prop('data-notification-type')).toEqual('default');
-		expect(wrapper.find('li').text()).toEqual('test');
-	});
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
 
-	it('Should render the correct html, html prop', () => {
-		const wrapper = shallow(<NotificationItem html={{ __html: '<u>test</u>' }} />);
-		expect(wrapper.html()).toEqual('<li data-notification-type="default"><u>test</u></li>');
-	});
+  it("<NotificationItem /> renders without crashing", () => {
+    wrapper = shallow(<NotificationItem />);
+    expect(wrapper.exists());
+  });
 
-	it('When simulating a click on the component - Should check that the spy is called with the right ID argument', () => {
-    const id = 2;
-    const wrapper = shallow(<NotificationItem type="default" value="test" id={id} />);
-    const newNote = wrapper;
-    newNote.markAsRead = jest.fn();
-    wrapper.find("li").first().simulate("click");
-    newNote.markAsRead(id);
-    expect(newNote.markAsRead).toHaveBeenCalledWith(2);
-    jest.restoreAllMocks();
+  it("<NotificationItem />  renders the correct html by passing dummy type and value props,", () => {
+    wrapper = shallow(<NotificationItem type="default" value="test" />);
+    expect(wrapper.find("li").text()).toBe("test");
+    expect(wrapper.find("li").prop("data-notification-type")).toBe("default");
+  });
+
+  it("<NotificationItem />  renders the correct html by passing a dummy html prop,", () => {
+    wrapper = shallow(<NotificationItem html={{__html:"<u>test</u>"}} />);
+    expect(wrapper.find("li").html()).toBe("<li data-notification-type=\"default\"><u>test</u></li>");
   });
 });

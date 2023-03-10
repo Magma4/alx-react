@@ -1,37 +1,40 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
 class NotificationItem extends React.PureComponent {
-	constructor(props) {
-		super(props);
-	}
+  constructor(props) {
+    super(props);
+  }
 
-	render() {
-		const { type, html, value, markAsRead, id } = this.props;
-		if (value) {
-			return (<li data-notification-type={type} onClick={() => markAsRead(id)} >{value}</li>)
-		} else {
-			return (<li dangerouslySetInnerHTML={html} onClick={() => markAsRead(id)} data-notification-type={type}></li>)
-		}
-	}
+  render() {
+    return (
+      this.props.value ?
+      <li
+      data-notification-type={this.props.type}
+      onClick={() => this.props.markAsRead(this.props.id)}
+      >{this.props.value}</li>
+      :
+      <li
+      data-notification-type={this.props.type}
+      dangerouslySetInnerHTML={this.props.html}
+      onClick={() => this.props.markAsRead(this.props.id)}
+      ></li>
+    );
+  }
 }
 
-NotificationItem.propTypes = {
-	type: PropTypes.string,
-	value: PropTypes.string,
-	html: PropTypes.shape({
-		__html: PropTypes.string
-	}),
-	markAsRead: PropTypes.func,
-	id: PropTypes.number
+NotificationItem.defaultProps = {
+  type: 'default',
+  markAsRead: () => {},
+	id: 0
 };
 
-NotificationItem.defaultProps = {
-	type: 'default',
-	value: '',
-	html: {},
-	markAsRead: () => {},
-	id: 0
+NotificationItem.propTypes = {
+  html: PropTypes.shape({__html: PropTypes.string}),
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  markAsRead: PropTypes.func,
+  id: PropTypes.number
 };
 
 export default NotificationItem;
